@@ -163,8 +163,7 @@ Definition: a direction is sp_viable if the room it from location is a room.
 Section - Tables
 
 Table of Smarter Parser Messages
-SP rule		message 
-a rule	a text
+SP rule (a rule)		message (a text)
 with 1 blank row.
 
 

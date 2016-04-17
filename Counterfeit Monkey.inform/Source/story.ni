@@ -1004,9 +1004,9 @@ Score   	Rank
 Section 3 - Assigning and completing tasks
 
 Table of Tasks Pending
-Citation	Time	Goal
+Citation	Time	Goal (a room)
 "Get my backpack from the cinema"	a time	Screening Room
-"Retrieve your remaining possessions from locker at hostel"	a time	Dormitory Room
+"Retrieve your remaining possessions from locker at hostel"	--	Dormitory Room
 "Meet your colleague Slango at Counterfeit Monkey"	--	Counterfeit Monkey
 with 40 blank rows.
 
