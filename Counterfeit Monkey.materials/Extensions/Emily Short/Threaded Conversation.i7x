@@ -48,7 +48,7 @@ Section 2 - Defining Quips
 
 A quip is a kind of thing. The specification of a quip is "A comment for the player to make. NPCs may respond in different ways."
 	A quip has some text called the comment. [The PC's speech.]
-	A quip has some text called the response. [The NPC's reply.]
+	A quip has some text called the reply. [The NPC's reply.]
 	A quip has some text called the nag. [The nag is printed if the NPC expects an answer to this quip and isn't getting one. Unless the quip is a question or otherwise leading statement, it's probably best to leave this blank.]
 	A quip has some text called the true-name. The true-name of a quip is usually "[the printed name of the item described]". [This is the in-source name of the quip, if for some reason we've had to generate a printed name for it. If we're using Conversation Builder, Conversation Builder will fill this in automatically.]
 
@@ -56,7 +56,7 @@ A quip can be one-time or repeatable. A quip is usually one-time. [A one-time qu
 
 A quip can be restrictive or unrestrictive. A quip is usually unrestrictive. [A restrictive quip requires that the player MUST say something that directly follows it.]
 
-A quip can be player-directed or NPC-directed. A quip is usually player-directed. [An NPC-directed quip is one that an NPC might use to start a new line of conversation or to nudge the PC about something. Accordingly it has no comment property, only a response -- the thing the NPC will say. Other quips may follow this quip as normal.]
+A quip can be player-directed or NPC-directed. A quip is usually player-directed. [An NPC-directed quip is one that an NPC might use to start a new line of conversation or to nudge the PC about something. Accordingly it has no comment property, only a reply -- the thing the NPC will say. Other quips may follow this quip as normal.]
 
 A quip can be q-transitional or q-immediate. A quip is usually q-immediate. [This is a kind of mark-up: does this quip start with a beat (transitional) or with speech (immediate)? The information is useful for advanced tweaking of conversational output; if we leave these attributes alone, they do nothing by default.] 
 
@@ -695,7 +695,7 @@ Carry out discussing (this is the stop any planned casual follow-ups rule):
 	unless addressing everyone is true:	
 		delete immediate optional conversation for the current interlocutor.
 
-Carry out discussing (this is the prepare a response rule):
+Carry out discussing (this is the prepare a reply rule):
 	queue noun as immediate obligatory.
 
 Report discussing (this is the say the player's line rule): 
@@ -722,9 +722,9 @@ Carry out someone discussing something which is not quippishly-relevant (this is
 Carry out someone discussing a one-time quip which quip-supplies the current interlocutor (this is the eliminate used quips rule):  
 	remove the noun from play; [This is so that we are steadily whittling away from the quip-repository any unnecessary single-use quips]
 
-Report someone discussing something (this is the interlocutor's response rule):
-	if the noun provides the property response:
-		say "[response of the noun][paragraph break]".
+Report someone discussing something (this is the interlocutor's reply rule):
+	if the noun provides the property reply:
+		say "[reply of the noun][paragraph break]".
 
 [The fact that this is a report, rather than a carry out rule, means that in theory characters can discuss things in another room, exchanging information behind the player's back. It also means that we can override the report rule without messing up any of the other accounting that needs to happen during the action.]
 
@@ -848,13 +848,13 @@ To say queue a/the/-- (chosen quip - a quip) last for (bystander - a person):
 	if the person asked is not the player and the person asked is not the current interlocutor:
 		add the chosen quip to the planned conversation of the person asked, if absent;
 
-To casually queue a/the/-- (chosen quip - a quip): [* This is designed to make it easier to have NPCs react to player actions with verbal responses. We need a way to make sure we don't make asides that disrupt required flow, so these remarks aren't queued if the current quip is something restrictive. We also guard against repetition and against queuing for someone who isn't the current interlocutor. It won't do anything when "addressing everyone" because it won't know who should have the quip queued.]
+To casually queue a/the/-- (chosen quip - a quip): [* This is designed to make it easier to have NPCs react to player actions with verbal replies. We need a way to make sure we don't make asides that disrupt required flow, so these remarks aren't queued if the current quip is something restrictive. We also guard against repetition and against queuing for someone who isn't the current interlocutor. It won't do anything when "addressing everyone" because it won't know who should have the quip queued.]
 	unless addressing everyone is true: 
 		if the current quip is not restrictive and the current interlocutor does not recollect the chosen quip:
 			unless the chosen quip quip-supplies someone who is not the current interlocutor:
 				queue the chosen quip as immediate optional. 
 
-To follow-up queue a/the/-- (chosen quip - a quip): [* This is designed to make it easier to have NPCs react to player actions with verbal responses. We need a way to make sure we don't make asides that disrupt required flow, so these remarks aren't queued if the current quip is something restrictive. We also guard against repetition and against queuing for someone who isn't the current interlocutor. It won't do anything when "addressing everyone" because it won't know who should have the quip queued.]
+To follow-up queue a/the/-- (chosen quip - a quip): [* This is designed to make it easier to have NPCs react to player actions with verbal replies. We need a way to make sure we don't make asides that disrupt required flow, so these remarks aren't queued if the current quip is something restrictive. We also guard against repetition and against queuing for someone who isn't the current interlocutor. It won't do anything when "addressing everyone" because it won't know who should have the quip queued.]
 	unless addressing everyone is true: 
 		if the current quip is not restrictive and the current interlocutor does not recollect the chosen quip:
 			unless the chosen quip quip-supplies someone who is not the current interlocutor:
@@ -880,7 +880,7 @@ To queue a/the/-- (chosen quip - a quip) last for (bystander - a person):
 To queue a/the/-- (chosen quip - a quip) as (chosen precedence - a quip-precedence) for (bystander - a person): 
 	change the quip-precedence of the chosen quip to the chosen precedence;
 	if the chosen precedence is immediate obligatory or the chosen precedence is immediate optional:
-		delete immediate optional conversation for the bystander; [* If we have some other optional comment in line, we want to get rid of that because it's no longer relevant; otherwise we can get a stack of immediate optional responses spooling out well after their immediacy has worn out]
+		delete immediate optional conversation for the bystander; [* If we have some other optional comment in line, we want to get rid of that because it's no longer relevant; otherwise we can get a stack of immediate optional replys spooling out well after their immediacy has worn out]
 		queue the chosen quip for the bystander;
 	otherwise:
 		queue the chosen quip last for the bystander.
@@ -1003,8 +1003,8 @@ Rule for avoiding talking heads (this is the default pause-construction rule):[*
 		say "[beat][if a random chance of 1 in 2 succeeds] [run paragraph on][otherwise][line break][paragraph break][end if]". [* This generates text that is printed between lines of conversation when the conversation is supposed to pause for a bit. The complexity of the structure is so that it can produce not-completely-predictable text structures. Specifically, an NPC's comment can either be q-transitional (an ugly term, I know) or not. If it is, that indicates that the comment begins with its own special, handwritten beat; in that case, we don't need to generate a grounding beat every time before we print it. If, however, the NPC's comment begins with quoted text, we do want a beat to separate it from the quoted text that preceded.]
 
 Report someone discussing a weakly-phrased dead-ended quip when the current interlocutor is a person and the current interlocutor is likely to continue and addressing everyone is false:
-	if the noun provides the property response:
-		say "[response of the noun] [run paragraph on]" instead.
+	if the noun provides the property reply:
+		say "[reply of the noun] [run paragraph on]" instead.
 
 Beat-producing is an activity.
 
@@ -1310,14 +1310,14 @@ We start writing a conversation with Threaded Conversation by writing a number o
 
 	whether the moon is made of green cheese is a quip.  
 	The comment is "'Do you think the moon is really made of cheese?' you ask.".
-	The response is "'Of course!' exclaims [the current interlocutor].".
+	The reply is "'Of course!' exclaims [the current interlocutor].".
 
 This isn't quite complete, though, because we need to tell Inform what keyworks to associate this quip with. For this, we use the "mentions" relation: 
 
 	whether the moon is made of green cheese is a quip.  
 	It mentions the moon, cheese.
 	The comment is "'Do you think the moon is really made of cheese?' you ask.".
-	The response is "'Of course!' exclaims [the current interlocutor].".
+	The reply is "'Of course!' exclaims [the current interlocutor].".
 
 Now we've established that the quip has to do with the moon and cheese objects elsewhere in the game. If the moon and the cheese are not represented physically in the game at all, we can make them abstract subjects, as in
 
@@ -1368,15 +1368,15 @@ As we saw above, most important components of a TC conversation system are quips
 
 	Lily looks well is an informative quip.  
 	The comment is "'You look very well, Lily,' you say, winking.".
-	The response is "'Why, thank you!' Lily replies.".
+	The reply is "'Why, thank you!' Lily replies.".
 
 	whether it will rain is a questioning quip.
 	The comment is "'What do you think of the weather?' you ask. 'Will it rain?'"
-	The response is "'I really don't know,' says [the current interlocutor].'"
+	The reply is "'I really don't know,' says [the current interlocutor].'"
 
 	curse the fates is a performative quip.
 	The comment is "Drawing on your prodigious knowledge of ancient norse profanities, you express your feelings about the whole cast of the universe that brought your life to this point."
-	The response is "The turtle does not reply."
+	The reply is "The turtle does not reply."
 
 Notice that the name of the quip is something that could sensibly follow "say" (for an informative quip) or "ask" (for a questioning quip); or, in the case of the performative quip, stand on its own as a unique command:
 
@@ -1397,7 +1397,7 @@ Then we could write
 	whether it will rain is a questioning quip.
 	It mentions the weather.
 	The comment is "'What do you make of the weather?' you ask. 'Will it rain?'"
-	The response is "'I really don't know,' says [the current interlocutor].'"
+	The reply is "'I really don't know,' says [the current interlocutor].'"
 
 And now (assuming that the quip is otherwise an appropriate thing to say at this juncture) the player can cause this quip with any of 
 	
@@ -1427,22 +1427,22 @@ By default, there are no limits determining to whom we may say a given quip. If 
 
 	how to get to Carnegie Hall is a questioning quip.
 	The comment is "'Do you know how to get to Carnegie Hall?' you ask [the current interlocutor]."
-	The response is "[one of]'No,'[or]'Practice!'[or]'Leave me alone, weirdo,'[or]'Walk north about three blocks,'[as decreasingly likely outcomes] says [the current interlocutor]."
+	The reply is "[one of]'No,'[or]'Practice!'[or]'Leave me alone, weirdo,'[or]'Walk north about three blocks,'[as decreasingly likely outcomes] says [the current interlocutor]."
 
-The use of text variations means that the response will vary a bit from person to person as we go around asking, and sooner or later someone is likely to give us the useful advice. Obviously, we could also just have every single person who answers reply in exactly the same words, but that's likely to become deadening.
+The use of text variations means that the reply will vary a bit from person to person as we go around asking, and sooner or later someone is likely to give us the useful advice. Obviously, we could also just have every single person who answers reply in exactly the same words, but that's likely to become deadening.
 
 Lots of times, though, we want to write a bunch of dialogue just for a single person. For this, TC defines the "quip-supplying" relation -- a given quip is said to quip-supply a given person if it provides that person with something to say.
 
 	Lily looks well is an informative quip.  
 	The comment is "'You look very well, Lily,' you say, winking.".
-	The response is "'Why, thank you!' Lily replies.". 
+	The reply is "'Why, thank you!' Lily replies.". 
 	It quip-supplies Lily.
 
 Or, if we want to say the same quip to several specific people in the game,
 
 	Lily looks well is an informative quip.  
 	The comment is "'Lily is looking good these days, isn't she?' you say.".
-	The response is "'[if the current interlocutor admires Lily]Yeah, she's turned into a real babe[otherwise]I guess[end if],' says [the current interlocutor].". 
+	The reply is "'[if the current interlocutor admires Lily]Yeah, she's turned into a real babe[otherwise]I guess[end if],' says [the current interlocutor].". 
 	It quip-supplies Lucas, Peter and Fred. 
 
 This might be a good time to look at the second example, "Slightly Less Simple".
@@ -1463,14 +1463,14 @@ If we'd like to be able to say the same quip many times to the same character, w
 	where the treasure lies is a repeatable questioning quip.
 	It mentions the Incan gold.
 	The comment is "'Do you know where the treasure lies, Long John?' you ask [one of]brightly[or]again[or]yet again[stopping]."
-	The response is "[one of]'[or]'Ye make an 'orrible pirate. I told you already. [or]Long John merely sighs. '[stopping]It be buried under the crossed palms,' he replies."
+	The reply is "[one of]'[or]'Ye make an 'orrible pirate. I told you already. [or]Long John merely sighs. '[stopping]It be buried under the crossed palms,' he replies."
 
-The most common use for repeatable quips is when the player has a chance to ask a character for some really vital piece of information -- something that he might forget and need to ask again in order to solve the game. We don't want to force him to take notes while he plays, so we don't want to lock that information away after the first time he asks. On the other hand, if we want to avoid the character sounding mechanical, it's good to vary their responses when they're asked more than once (as shown above), or else have repeated responses provide a summary form, like 
+The most common use for repeatable quips is when the player has a chance to ask a character for some really vital piece of information -- something that he might forget and need to ask again in order to solve the game. We don't want to force him to take notes while he plays, so we don't want to lock that information away after the first time he asks. On the other hand, if we want to avoid the character sounding mechanical, it's good to vary their replies when they're asked more than once (as shown above), or else have repeated replies provide a summary form, like 
 
 	where the treasure lies is a repeatable questioning quip.
 	It mentions the Incan gold.
 	The comment is "'Do you know where the treasure lies, Long John?' you ask [one of]brightly[or]again[or]yet again[stopping]."
-	The response is "[one of]'Aye, it be buried under the crossed palms,' he replies[or]Long John reminds you, a little impatiently, that the treasure is buried under the crossed palms[stopping]."
+	The reply is "[one of]'Aye, it be buried under the crossed palms,' he replies[or]Long John reminds you, a little impatiently, that the treasure is buried under the crossed palms[stopping]."
 
 (For another variation on this, see the "King of Everything" example below; or to simply get a look at the behavior of repeatable scenes, see "Not So Simple".)
 
@@ -1531,7 +1531,7 @@ Moreover, facts don't have to be tied to quips. Characters might also find thing
 
 But quite a lot of the time, facts will be communicated in the flow of conversation. If we want to indicate that a given quip communicates a given fact, we simply include the fact in brackets in the quip text; as in
 
-	The response is "Bob holds up his shoe for you to see. [bob-shoe-size]'Eight, like I told you, inspector,' he says grumpily."
+	The reply is "Bob holds up his shoe for you to see. [bob-shoe-size]'Eight, like I told you, inspector,' he says grumpily."
 
 Whenever someone says a quip with an embedded fact, everyone who is listening -- that is, the player, the current interlocutor, and any other characters in scope -- overhear the fact and come to know it as well. Conversely, "[forget bob-shoe-size]" will make everyone in scope stop knowing the fact again. (This is useful at those moments when some piece of popularly-believed information turns out to be false.)
 
@@ -1699,7 +1699,7 @@ The everyone speaks if queued rule simply discusses the next queued topic for ev
 
 The character pursues own ideas rule now considers whether the current interlocutor has something *more* to say and whether the thread we were on has come to a halt. If we are at the end of a thread -- the current quip is "dead-ended" and has nothing that follows it -- then the current interlocutor gets another turn: we run the avoiding talking heads activity, then perform the <i>next</i> queued conversation for the current interlocutor.
 
-The avoiding talking heads activity is meant to be used to print out something -- whatever the author would like, really -- to indicate a pause between the current interlocutor's response to the player's quip and the new thing that the current interlocutor says on his own.
+The avoiding talking heads activity is meant to be used to print out something -- whatever the author would like, really -- to indicate a pause between the current interlocutor's reply to the player's quip and the new thing that the current interlocutor says on his own.
 
 The result of this system is that most of the time the current interlocutor will not change the subject of conversation on his own, but he can do so if the current conversation is pretty much tapped out. Experiment suggests that this is about the level of initiative that players like in a character: if the character talks too often and directs the conversation too much, the player may feel that he's not really in control, but is merely watching a pre-programmed narrative unfold. If the character *never* takes the initiative, though, he starts to seem implausibly passive. 
 
@@ -1716,16 +1716,16 @@ All of these can be used within say tokens, as in
 	
 	say "'The weather is fine,' says Captain Hook. [queue picnic-proposal]".
 
-Section: Interrupting between the comment and the response
+Section: Interrupting between the comment and the reply
 
-Because the character's speech comes as a separate action after the player's speech, we have the opportunity to insert action between the question and the answer; to build special cases where a third party interrupts if present; or to replace the standard response under certain unusual circumstances.
+Because the character's speech comes as a separate action after the player's speech, we have the opportunity to insert action between the question and the answer; to build special cases where a third party interrupts if present; or to replace the standard reply under certain unusual circumstances.
 
-If we want a character to respond atypically -- for instance, by ignoring all of the player's remarks and relentlessly pursuing his own line of thought -- we can intervene in the way that the responses are queued or in the way that they're carried out. One of many possibilities, for a scene where the character will talk about a specific thread but refuses to be gotten to talk about anything else:
+If we want a character to respond atypically -- for instance, by ignoring all of the player's remarks and relentlessly pursuing his own line of thought -- we can intervene in the way that the replies are queued or in the way that they're carried out. One of many possibilities, for a scene where the character will talk about a specific thread but refuses to be gotten to talk about anything else:
 
 	Procedural rule during Shadows:
-		substitute the distracted response rule for the prepare a response rule.
+		substitute the distracted reply rule for the prepare a reply rule.
 	
-	This is the distracted response rule:
+	This is the distracted reply rule:
 		if the person asked is not the player, make no decision; 
 		if the noun is not quippishly-relevant:
 			if acting distracted is not queued,
@@ -1754,7 +1754,7 @@ If we wanted to have one piece of conversation give the character an idea for so
 	Carry out Lily discussing why-Ireland:	
 		queue madhouses worse than prisons.
 
--- though TC provides a shortcut for this that we can fold into spoken comments and responses. If we do
+-- though TC provides a shortcut for this that we can fold into spoken comments and replies. If we do
 
 	say "'That's interesting[queue lemma],' she says...";
 
@@ -1862,24 +1862,24 @@ In this example, quips mention both things in the real world (the barmaid) and c
 	whether the rumors tell truly is a questioning quip. 
 		It mentions immortality, rumors.
 		The comment is "'Where I come from, over the black hills there, they say that men this side of the mountain live as old as Methuselah,' you remark. 'They say the secret of eternal life is here.'".
-		The response is "'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'".
+		The reply is "'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'".
 	
 	where Garrick lives is a questioning quip. 
 		It mentions Old Garrick.
 		The comment is "'Where does this old Garrick live?' you ask, trying not to seem too eager.".
-		The response is "'Down at the pig farm,' she says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'".
+		The reply is "'Down at the pig farm,' she says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'".
 		It indirectly-follows whether the rumors tell truly. 
 		[This last line means that the player can't use this quip until after he's used 'whether the rumors tell truly'. We'll see more about indirectly-follows later.]
 
 	where the barmaid comes from is a questioning quip. 
 		It mentions barmaid.
 		The comment is "'What about yourself?' you ask. 'Are you from around these parts?'".
-		The response is "'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'".
+		The reply is "'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'".
 	
 	whether she's heard the stories is a questioning quip. 
 		It mentions barmaid, immortality, rumors.
 		The comment is "'Have you heard any stories of long-living men?' you press her.".
-		The response is "She purses her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'".
+		The reply is "She purses her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'".
 		It indirectly-follows whether the rumors tell truly.
 
 	Test one with "talk to the barmaid / ask the barmaid about rumors / ask her about herself / whether she's heard the stories".
@@ -1924,25 +1924,25 @@ Now we add a second character, a wanderer who has stopped at the inn for the eve
 	whether the rumors tell truly is a questioning quip. 
 		It mentions immortality, rumors.
 		The comment is "'Where I come from, over the black hills there, they say that men this side of the mountain live as old as Methuselah,' you remark. 'They say the secret of eternal life is here.'".
-		The response is "[if the current interlocutor is the barmaid]'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'[otherwise]'That's true enough,' says [the current interlocutor]. 'Though there are plenty around here that will deny it.'[end if]". 
+		The reply is "[if the current interlocutor is the barmaid]'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'[otherwise]'That's true enough,' says [the current interlocutor]. 'Though there are plenty around here that will deny it.'[end if]". 
 	
 	where Garrick lives is a questioning quip. 
 		It mentions Old Garrick.
 		The comment is "'Where does this old Garrick live?' you ask, trying not to seem too eager.".
-		The response is "'Down at the pig farm,' [the current interlocutor] says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'".
+		The reply is "'Down at the pig farm,' [the current interlocutor] says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'".
 		It indirectly-follows whether the rumors tell truly.  
 		It quip-supplies the barmaid.
 
 	where the barmaid comes from is a questioning quip. 
 		It mentions barmaid.
 		The comment is "'What about yourself?' you ask. 'Are you from around these parts?'".
-		The response is "'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'".
+		The reply is "'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'".
 		It quip-supplies the barmaid.
 	
 	whether she's heard the stories is a questioning quip. 
 		It mentions barmaid, immortality, rumors.
 		The comment is "'Have you heard any stories of long-living men?' you press her.".
-		The response is "She pinches her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'".
+		The reply is "She pinches her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'".
 		It indirectly-follows whether the rumors tell truly.
 		It quip-supplies the barmaid.
 	
@@ -1986,32 +1986,32 @@ Here we're going to let the player ask the wanderer the same question several ti
 	whether the rumors tell truly is a questioning quip. 
 		It mentions immortality, rumors.
 		The comment is "'Where I come from, over the black hills there, they say that men this side of the mountain live as old as Methuselah,' you remark. 'They say the secret of eternal life is here.'".
-		The response is "[if the current interlocutor is the barmaid]'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'[otherwise]'That's true enough,' says [the current interlocutor]. 'Though there are plenty around here that will deny it.'[end if]". 
+		The reply is "[if the current interlocutor is the barmaid]'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'[otherwise]'That's true enough,' says [the current interlocutor]. 'Though there are plenty around here that will deny it.'[end if]". 
 	
 	where Garrick lives is a questioning quip. 
 		It mentions Old Garrick.
 		The comment is "'Where does this old Garrick live?' you ask, trying not to seem too eager.".
-		The response is "'Down at the pig farm,' [the current interlocutor] says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'".
+		The reply is "'Down at the pig farm,' [the current interlocutor] says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'".
 		It indirectly-follows whether the rumors tell truly.  
 		It quip-supplies the barmaid.
 
 	where the barmaid comes from is a questioning quip. 
 		It mentions barmaid.
 		The comment is "'What about yourself?' you ask. 'Are you from around these parts?'".
-		The response is "'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'".
+		The reply is "'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'".
 		It quip-supplies the barmaid.
 	
 	whether she's heard the stories is a questioning quip. 
 		It mentions barmaid, immortality, rumors.
 		The comment is "'Have you heard any stories of long-living men?' you press her.".
-		The response is "She pinches her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'".
+		The reply is "She pinches her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'".
 		It indirectly-follows whether the rumors tell truly.
 		It quip-supplies the barmaid.
 	
 	what he knows is a questioning quip. 
 		It mentions rumors, wanderer.
 		The comment is "[one of]'What do you know about those who live forever?' you ask[or]'Tell me more about the secrets of eternal life concealed here,' you plead[stopping].".
-		The response is "[one of]'I met last month a man that used to be a friend of my grandfather. My grandfather's long dead and in the ground, and this man looks younger than myself. I have a miniature painting of them two together, and I tell you he has not aged a moment.'[or]'I myself do not know how it is done,' he responds. 'They guard the secret carefully in these parts, as well they should.'[or]'I've told you all I know -- which is almost nothing,' he says. 'Only that I've met a man that has not aged since my grandfather's day, and maybe longer than that.'[or]He tells you again about his encounter with this implausibly young man, embellishing the story a little -- though not with any details that would help you find the fellow.[stopping]".
+		The reply is "[one of]'I met last month a man that used to be a friend of my grandfather. My grandfather's long dead and in the ground, and this man looks younger than myself. I have a miniature painting of them two together, and I tell you he has not aged a moment.'[or]'I myself do not know how it is done,' he responds. 'They guard the secret carefully in these parts, as well they should.'[or]'I've told you all I know -- which is almost nothing,' he says. 'Only that I've met a man that has not aged since my grandfather's day, and maybe longer than that.'[or]He tells you again about his encounter with this implausibly young man, embellishing the story a little -- though not with any details that would help you find the fellow.[stopping]".
 		It quip-supplies the wanderer.
 		It indirectly-follows whether the rumors tell truly.
 		It is repeatable.
@@ -2020,7 +2020,7 @@ Here we're going to let the player ask the wanderer the same question several ti
 		Understand "I" as whether you may see the miniature.
 		It mentions miniature, yourself.
 		The comment is "'May I see this miniature? I'm curious to see the man who has lived without aging.'".
-		The response is "'Why not?' He searches through the pockets of his coat, and then the pockets of his trousers, and finally -- looking surprised and much relieved -- finds what he was looking for tucked away in his boot. 'Here it is: have a look.' [paragraph break]And he extends for view an old-fashioned locket: painted on an ivory rectangle are the images of two young men. They are painted so small that it would be hard to guarantee that you would recognize them again.".
+		The reply is "'Why not?' He searches through the pockets of his coat, and then the pockets of his trousers, and finally -- looking surprised and much relieved -- finds what he was looking for tucked away in his boot. 'Here it is: have a look.' [paragraph break]And he extends for view an old-fashioned locket: painted on an ivory rectangle are the images of two young men. They are painted so small that it would be hard to guarantee that you would recognize them again.".
 		It quip-supplies the wanderer.
 		It indirectly-follows what he knows.
 	
@@ -2051,7 +2051,7 @@ We also do not provide any cues about special things to say, and we avoid using 
 	Instead of discussing something which is recollected by the current interlocutor:
 		say "You remember your conversation as follows: 
 	
-[italic type][the response of the noun][roman type][line break]".
+[italic type][the reply of the noun][roman type][line break]".
 	
 	Who is a subject.
 
@@ -2062,7 +2062,7 @@ We also do not provide any cues about special things to say, and we avoid using 
 		Understand "is" as who he seems. 
 		It mentions king, who.
 		The comment is "'Just who are you?' you ask, your pen poised over your notepad. 'We want to know everything.'".
-		The response is "'I was born on the underbelly of the moon,' he replies. 'But, growing tired of living there, and constantly able to see the beautiful colors of the earth, I took wing and flew down here.'".
+		The reply is "'I was born on the underbelly of the moon,' he replies. 'But, growing tired of living there, and constantly able to see the beautiful colors of the earth, I took wing and flew down here.'".
 		It quip-supplies King. 
 
 	Test me with "talk to king / ask the king about the king / g".
@@ -2112,13 +2112,13 @@ The specific quips are once again generated by Conversation Builder.
 		Understand "have" or "has" as why she hath come. 
 		It mentions Lavine, meeting.
 		The comment is "'Why have you come?' you demand of Lavine urgently. You keep your voice as low as you are able, but Thurg nonetheless watches you with obvious comprehension.".
-		The response is "'Why, to see what it was you were saying to the trolls, of course,' she answers in a clear, bell-like tone. 'Our alliance [elf-human alliance]is still young, eh?'".
+		The reply is "'Why, to see what it was you were saying to the trolls, of course,' she answers in a clear, bell-like tone. 'Our alliance [elf-human alliance]is still young, eh?'".
 	 	It quip-supplies Lavine.
 
 	this alliance will be a happy one is an informative quip. 
 		It mentions Lavine, meeting.
 		The comment is "'I am so glad to see you,' you tell Lavine. 'I am sure the alliance of our two peoples [elf-human alliance]will be a long and happy one.'".
-		The response is "'That is my hope as well,' she says musically.".
+		The reply is "'That is my hope as well,' she says musically.".
 		It quip-supplies Lavine.
 
 	Test me with "talk to Lavine / ask why she has come".
