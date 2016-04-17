@@ -1895,8 +1895,6 @@ Test keybug with "tutorial off / x key / wear monocle / x key" holding the key a
 
 Section 1 - Overriding to First Plural
 
-Include Custom Library Messages by David Fisher.
-
 Include Tailored Room Description by Emily Short.
 
 [This sets us up so that we can print object descriptions when taking items if the command was of the form TAKE FISH, but not if it was TAKE ALL and the result would be a screendump of different descriptions. See its use in the "report player taking" response below.]
@@ -1916,33 +1914,113 @@ To say (item - a thing) description:
 Carry out examining something:
 	now the noun is examined.
 
-Table of custom library messages (continued)
-Message Id					Message Text
-LibMsg <report player taking>			"[You] [one of]take[or]get[or]pick up[or]acquire[as decreasingly likely outcomes] [the noun][if the noun is unexamined and the action is singular]. [run paragraph on][noun description][no line break][otherwise].[end if]"
-LibMsg <report player dropping>	"[You] put down [the noun]."
-LibMsg <top line what in>		" ([if the player is in the car]jammed into the car[otherwise]in [the % dobj][end if])"
-LibMsg <unknown object>			"[if location is Customs House]The line is moving enough that even things that were just here move out of sight quickly[otherwise][one of]I don't know what you think you're talking about, because we can't see any such thing here[or]Maybe that means something different to you, but I can't see any such thing[or]I can't see what you're talking about[stopping][end if]."
-LibMsg <block swearing obscenely>		"Hey, calm down."
-LibMsg <block swearing mildly>			"No kidding."
-LibMsg <block kissing>				"[one of]Is that how you solve all problems?[or]Could you refrain while I'm trapped in the same body here?[at random]"
-LibMsg <block thinking>			"[one of]I'm pulling my weight here! How about [i]you[/i] think us up a way out of this, hm?[or]Sorry, no bright ideas at the moment.[at random]"
-LibMsg <block attacking>			"[one of]I don't like destructive behavi[our].[or]I just don't think attacking things or people is going to help.[or]Jeez, wait until you're sole proprietor of your own body to [if the noun is a person]pick fights[otherwise]commit pointless acts of vandalism[end if].[cycling]"
-LibMsg <block cutting>				"But [i]why?[/i] [--] no, don't answer that. I'm sure you have some crazy explanation."
-LibMsg <block jumping>	"I don't think that would help."
-LibMsg <block waving hands>	"[You] wave our hand regally."
-LibMsg <block rubbing>				"[You] achiev[e-s] nothing by this." 
-LibMsg <block pushing in directions>		"[You] seriously doubt that will help." 
-LibMsg <report player opening>				"[You] open[-s] [the % dobj][if the noun is a container and the number of things in the noun is 0], which turns out to be empty[end if]."
-LibMsg <block singing>	"I prefer not to exercise my singing voice in company. (That includes you.)"
-LibMsg <block waking up>	"At some point we'll split into our two proper selves, but our unnatural synthesis is no dream."
-LibMsg <you have won>    	 " We have won "
-LibMsg <cannot push people>	"[You][']d rather not try it."
-LibMsg <cannot pull people>	"[You][']d rather not try it."
-LibMsg <cannot turn people>	"[You][']d rather not try it."
-LibMsg <block buying>	"[if the current interlocutor is a visible person][The current interlocutor] [is-are]n't in a position to sell us [the noun][otherwise]There's no one about to sell us [the noun][end if]."
-LibMsg <block rubbing>	"[nerve-damage]."
-LibMsg <report player squeezing>	"[nerve-damage]."
-LibMsg <block burning>	"[You] don't have a flame source, and if [you] did I wouldn't want to set things on fire with it."
+[<report player taking>]
+The standard report taking rule response (A) is
+	"[You] [one of]take[or]get[or]pick up[or]acquire[as decreasingly likely outcomes] [the noun][if the noun is unexamined and the action is singular]. [run paragraph on][noun description][no line break][otherwise].[end if]"
+
+[<report player dropping>]
+The standard report dropping rule response (A) is
+	"[You] put down [the noun]."
+
+[<top line what in>]
+The room description heading rule response (C) is
+	" ([if the player is in the car]jammed into the car[otherwise]in [the % dobj][end if])"
+
+[<unknown object>]
+The parser error internal rule response (C) is
+	"[if location is Customs House]The line is moving enough that even things that were just here move out of sight quickly[otherwise][one of]I don't know what you think you're talking about, because we can't see any such thing here[or]Maybe that means something different to you, but I can't see any such thing[or]I can't see what you're talking about[stopping][end if]."
+
+[These entries in Custom Library Messages by David Fisher have no built-in counterpart in newer versions of Inform:
+
+[<block swearing obscenely>]
+The ??? rule response (?) is
+	"Hey, calm down."
+
+[<block swearing mildly>]
+The ??? rule response (?) is
+	"No kidding."
+
+]
+
+[<block kissing>]
+The block kissing rule response (A) is
+	"[one of]Is that how you solve all problems?[or]Could you refrain while I'm trapped in the same body here?[at random]"
+
+[<block thinking>]
+The block thinking rule response (A) is
+	"[one of]I'm pulling my weight here! How about [i]you[/i] think us up a way out of this, hm?[or]Sorry, no bright ideas at the moment.[at random]"
+
+[<block attacking>]
+The block attacking rule response (A) is
+	"[one of]I don't like destructive behavi[our].[or]I just don't think attacking things or people is going to help.[or]Jeez, wait until you're sole proprietor of your own body to [if the noun is a person]pick fights[otherwise]commit pointless acts of vandalism[end if].[cycling]"
+
+[<block cutting>]
+The block cutting rule response (A) is
+	"But [i]why?[/i] [--] no, don't answer that. I'm sure you have some crazy explanation."
+
+[<block jumping>]
+The report jumping rule response (A) is
+	"I don't think that would help."
+
+[<block waving hands>]
+The report waving hands rule response (A) is
+	"[You] wave our hand regally."
+
+[<block rubbing>]
+The report rubbing rule response (A) is
+	"[You] achiev[e-s] nothing by this."
+
+[<block pushing in directions>]
+The block pushing in directions rule response (A) is
+	"[You] seriously doubt that will help."
+
+[<report player opening>]
+The standard report opening rule response (A) is
+	"[You] open[-s] [the % dobj][if the noun is a container and the number of things in the noun is 0], which turns out to be empty[end if]."
+
+[These entries in Custom Library Messages by David Fisher have no built-in counterpart in newer versions of Inform:
+
+[<block singing>]
+The ??? rule response (?) is
+	"I prefer not to exercise my singing voice in company. (That includes you.)"
+
+]
+
+[<block waking up>]
+The block waking up rule response (A) is
+	"At some point we'll split into our two proper selves, but our unnatural synthesis is no dream."
+
+[<you have won>]
+The print obituary headline rule response (B) is
+	" We have won "
+
+[<cannot push people>]
+The can't push people rule response (A) is
+	"[You][']d rather not try it."
+
+[<cannot pull people>]
+The can't pull people rule response (A) is
+	"[You][']d rather not try it."
+
+[<cannot turn people>]
+The can't turn people rule response (A) is
+	"[You][']d rather not try it."
+
+[<block buying>]
+The block buying rule response (A) is
+	"[if the current interlocutor is a visible person][The current interlocutor] [is-are]n't in a position to sell us [the noun][otherwise]There's no one about to sell us [the noun][end if]."
+
+[<block rubbing>]
+The report rubbing rule response (A) is
+	"[nerve-damage]."
+
+[<report player squeezing>]
+The report squeezing rule response (A) is
+	"[nerve-damage]."
+
+[<block burning>]
+The block burning rule response (A) is
+	"[You] don't have a flame source, and if [you] did I wouldn't want to set things on fire with it."
 
 To say nerve-damage:
 	say "[one of]I don't see that being a big help[or]I'd rather not, thanks[or]You're a strikingly tactile person, you know? But I don't see any purpose in it[or]Hm. Don't take this the wrong way, but do you think your need for haptic feedback is a sign of nerve damage during our synthesis? No? Okay, just checking[cycling]".
