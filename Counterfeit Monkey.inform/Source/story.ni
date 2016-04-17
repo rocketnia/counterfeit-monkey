@@ -791,9 +791,10 @@ Section 3 - Styles
 [Borrowed from Alabaster's version of the same thing.] 
 
 Table of User Styles (continued)
-style name	justification	obliquity	indentation	first-line indentation	boldness	fixed width	relative size	glulx color 
-special-style-1	left-justified	--	0	0	--	--	0	g-medium-grey
-special-style-2	left-justified	italic-obliquity	0	0	light-weight	proportional-font	0	g-dark-grey
+style name	color	font weight	italic	justification
+special-style-2	"#444444"	light-weight	true	left-justified
+special-style-1	"#888888"
+
 
 Before listing plausible quips [when dialogue tinting is true]:
 	say "[second custom style][run paragraph on]".
@@ -1242,7 +1243,7 @@ Instead of taking inventory when the current inventory listing style is utilitar
 	let unpacked count be 0;
 	if the number of things enclosed by the player is 0, say "[You] [are] empty-handed." instead;
 	now all essential things enclosed by the player are marked for listing; 
-	unless the number of marked for listing things is 0::
+	unless the number of marked for listing things is 0:
 		if exactly one thing is marked for listing:
 			say "[You] [are] equipped with [a list of marked for listing thing] [--] an essential [you] mustn't part with.[paragraph break]";
 		otherwise:
@@ -2015,9 +2016,9 @@ To introduce (special-target - an object):
 	now the special-target is introduced;
 	say "[introduction of the special-target]".
 
-Definition: a thing is introduceable if its introduction is not "".
+Definition: a thing is introduceable if the introduction of it is not "".
 
-Definition: a room is introduceable if its introduction is not "".
+Definition: a room is introduceable if the introduction of it is not "".
 
 A thing can be as-yet-unknown or introduced. A thing is usually as-yet-unknown.
 A room can be as-yet-unknown or introduced. A room is usually as-yet-unknown.
@@ -3403,7 +3404,7 @@ A dorm bed is a kind of bed.
 Section 4 - Desks, Drawers, Offices
 
 
-Include CM Automated Drawers by Emily Short. 
+Include Automated Drawers by Emily Short. 
 
 Definition: a container is empty if the number of things in it is 0.
 Definition: a supporter is empty if the number of things on it is 0.
@@ -7820,7 +7821,7 @@ After going to Fish Market when the authenticator is in Fish Market and the play
 	otherwise:
 		clear the path-walked for the player;   
 	now approach-destination is Samuel Johnson Hall; [make it seem like we haven't made progress, if approaching.] 
-	[try going east]. 
+	[try going east.]
 
 Definition: a thing is problematic:
 	if it is illegal:
